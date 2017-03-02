@@ -18,17 +18,19 @@ function Get-AudioDeals ($Filter)
     $DiffPercent = @()
     ##Split Delimiter for Prices
     $Delimiter = " was "
+    ##Currency Variable
+    $Currency = New-Object System.Globalization.CultureInfo("en-GB")
     ##Loop to Build Output Table
     Foreach ($Price in $Prices)
     {
-        ##Temp Variables for Calculating Differences
+        ##Temp Variable / Split
         $TempPrice = ($Price -Split $Delimiter).Trim().TrimStart("£")
         ##Math for Differences
         $DiffValue += $TempPrice[1] - $TempPrice[0]
         $DiffPercent += (($TempPrice[1] - $TempPrice[0]) / $TempPrice[1]).ToString("P")
-        ##Split for Price Now/Was
-        $Now += $TempPrice[0]
-        $Was += $TempPrice[1]        
+        ##Adding Prices to Arrays
+        $Now += "£" + $TempPrice[0]
+        $Was += "£" + $TempPrice[1]
     }
     ##Output Table
     $Table = 0..($Name.Length-1) | Select-Object @{name="Name";expression={$Name[$_]}},

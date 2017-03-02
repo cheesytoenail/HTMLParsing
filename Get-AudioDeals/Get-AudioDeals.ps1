@@ -26,7 +26,7 @@ function Get-AudioDeals ($Filter)
         ##Temp Variable / Split
         $TempPrice = ($Price -Split $Delimiter).Trim().TrimStart("£")
         ##Math for Differences
-        $DiffValue += $TempPrice[1] - $TempPrice[0]
+        $DiffValue += "£" + ($TempPrice[1] - $TempPrice[0])
         $DiffPercent += (($TempPrice[1] - $TempPrice[0]) / $TempPrice[1]).ToString("P")
         ##Adding Prices to Arrays
         $Now += "£" + $TempPrice[0]

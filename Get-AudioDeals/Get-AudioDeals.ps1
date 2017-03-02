@@ -22,16 +22,13 @@ function Get-AudioDeals ($Filter)
     Foreach ($Price in $Prices)
     {
         ##Temp Variables for Calculating Differences
-        $TempNow = $Price.Split($Delimiter)[0].Trim().TrimStart("£")
-        $TempWas = $Price.Split($Delimiter)[5].Trim().TrimStart("£")
+        $TempPrice = ($Price -Split $Delimiter).Trim().TrimStart("£")
         ##Math for Differences
-        $DiffValue += [Decimal]$TempWas - [Decimal]$TempNow
-        #$DiffPercent += ([Decimal]$TempNow/[Decimal]$TempWas).ToString("P")
-        $DiffPercent += (([Decimal]$TempWas - [Decimal]$TempNow) / [Decimal]$TempWas).ToString("P")
+        $DiffValue += $TempPrice[1] - $TempPrice[0]
+        $DiffPercent += (($TempPrice[1] - $TempPrice[0]) / $TempPrice[1]).ToString("P")
         ##Split for Price Now/Was
-        $Now += $Price.Split($Delimiter)[0].Trim().TrimStart("£")
-        $Was += $Price.Split($Delimiter)[5].Trim().TrimStart("£")
-        
+        $Now += $TempPrice[0]
+        $Was += $TempPrice[1]        
     }
     ##Output Table
     $Table = 0..($Name.Length-1) | Select-Object @{name="Name";expression={$Name[$_]}},
